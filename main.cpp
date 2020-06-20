@@ -13,14 +13,14 @@ typedef struct{
 
 
 /***********************
-*		ºê¶¨Òå         *
+*	å®å®šä¹‰         *
 ***********************/
-#define ROW 16			//ÓĞ¶àÉÙĞĞ
-#define COL 16			//ÓĞ¶àÉÙÁĞ
-#define NUM 1			//À×Êı
-#define MINESIZE 30		//Ã¿¸ö¸ñ×ÓµÄ³¤ºÍ¿í
+#define ROW 16			//æœ‰å¤šå°‘è¡Œ
+#define COL 16			//æœ‰å¤šå°‘åˆ—
+#define NUM 1			//é›·æ•°
+#define MINESIZE 30		//æ¯ä¸ªæ ¼å­çš„é•¿å’Œå®½
 
-int count;//µã¿ªµÄ·ÇÀ×·½¿éÊıÄ¿
+int count;//ç‚¹å¼€çš„éé›·æ–¹å—æ•°ç›®
 int map[ROW+2][COL+2];
 IMAGE img[3];
 clock_t t1,t2,t3,t4;
@@ -28,29 +28,29 @@ int onoff;
 Time t;
 
 
-void init();//³õÊ¼»¯ÌùÍ¼£¬²¼À×£¬¼ÓÃÜ£¨ÏêÏ¸»áÔÚÎÄµµÀïËµ£©
-int first();//ÓÎÏ·Ê×½çÃæ
+void init();//åˆå§‹åŒ–è´´å›¾ï¼Œå¸ƒé›·ï¼ŒåŠ å¯†ï¼ˆè¯¦ç»†ä¼šåœ¨æ–‡æ¡£é‡Œè¯´ï¼‰
+int first();//æ¸¸æˆé¦–ç•Œé¢
 void stop();
-void menu();//ÓÒ²à²Ëµ¥
-void lightGrey(int i,int j);//Ç³»ÒÉ«·À¿éµÄ»æÖÆ
-void darkGrey(int i,int j);//Éî»ÒÉ«·½¿éµÄ»æÖÆ
-void number(int n, int i, int j);//Êı×ÖµÄ»æÖÆ
-void draw();//»­±í
-void openZero(int i, int j);//¶Ô¿ªµ½Êı×ÖÎª0¸ñ×ÓµÄ´¦Àí
-void fail();//Ê§°Üµ¯´°
+void menu();//å³ä¾§èœå•
+void lightGrey(int i,int j);//æµ…ç°è‰²é˜²å—çš„ç»˜åˆ¶
+void darkGrey(int i,int j);//æ·±ç°è‰²æ–¹å—çš„ç»˜åˆ¶
+void number(int n, int i, int j);//æ•°å­—çš„ç»˜åˆ¶
+void draw();//ç”»è¡¨
+void openZero(int i, int j);//å¯¹å¼€åˆ°æ•°å­—ä¸º0æ ¼å­çš„å¤„ç†
+void fail();//å¤±è´¥å¼¹çª—
 void calTime();
 void printTime();
 void keepon();
-int game();//¿ØÖÆÕû¸öÓÎÏ·µÄÊó±êµã»÷£¬Á÷³Ì
-void judge();//ÅĞ¶ÏÓÎÏ·µÄ³É¹¦ÓëÊ§°Ü
+int game();//æ§åˆ¶æ•´ä¸ªæ¸¸æˆçš„é¼ æ ‡ç‚¹å‡»ï¼Œæµç¨‹
+void judge();//åˆ¤æ–­æ¸¸æˆçš„æˆåŠŸä¸å¤±è´¥
 
 
 int main()
 {
 //	initgraph(COL*MINESIZE+160,ROW*MINESIZE);
-	initgraph(ROW*MINESIZE+160,COL*MINESIZE,SHOWCONSOLE);//Èç¹ûÏëÒ»¿ªÊ¼¾ÍÖªµÀÀ×µÄÎ»ÖÃ£¬¾Í°ÑÕâ¸ö×¢ÊÍÈ¥µô²¢°ÑÉÏÃæÄÇ¸ö×¢ÊÍµô
+	initgraph(ROW*MINESIZE+160,COL*MINESIZE,SHOWCONSOLE);//å¦‚æœæƒ³ä¸€å¼€å§‹å°±çŸ¥é“é›·çš„ä½ç½®ï¼Œå°±æŠŠè¿™ä¸ªæ³¨é‡Šå»æ‰å¹¶æŠŠä¸Šé¢é‚£ä¸ªæ³¨é‡Šæ‰
 
-	if(first())//ÊÜ½çÃæº¯Êı·µ»ØÒ»¾Í¿ªÊ¼ÓÎÏ·
+	if(first())//å—ç•Œé¢å‡½æ•°è¿”å›ä¸€å°±å¼€å§‹æ¸¸æˆ
 	{	
 		cleardevice();
 		init();
@@ -71,11 +71,11 @@ void init()
 	srand(time(NULL));
 	int cnt = 0;
 	int i,j,m,n;
-	//È«²¿ÇåÁã
+	//å…¨éƒ¨æ¸…é›¶
 	for(i = 0; i < ROW+2; i++)
 		for(j = 0; j < COL+2; j++)
 			map[i][j]=0;
-	//²¼À×
+	//å¸ƒé›·
 	while(cnt<NUM)
 	{
 		i=rand()%ROW+1;
@@ -86,7 +86,7 @@ void init()
 			cnt++;
 		}
 	}
-	//¼ÆËãÃ¿¸ö·½¿éÀïµÄÊı×Ö£¨¼´ÖÜÎ§À×ÊıÊÇ¶àÉÙ£©
+	//è®¡ç®—æ¯ä¸ªæ–¹å—é‡Œçš„æ•°å­—ï¼ˆå³å‘¨å›´é›·æ•°æ˜¯å¤šå°‘ï¼‰
 	for(i = 1; i <= ROW; i++)
 		for(j = 1; j <= COL; j++)
 			if(map[i][j] != -1)
@@ -100,7 +100,7 @@ void init()
 							map[i][j]++;
 					}
 			}
-	//¼ÓÃÜ
+	//åŠ å¯†
 	for(i = 1; i <= ROW; i++)
 		for(j = 1; j <= COL; j++)
 			map[i][j]+=20;
@@ -108,18 +108,18 @@ void init()
 
 int first()
 {
-	loadimage(&img[2],"first.jpg",COL*MINESIZE+160,ROW*MINESIZE);//Ê×½çÃæÍ¼Æ¬
+	loadimage(&img[2],"first.jpg",COL*MINESIZE+160,ROW*MINESIZE);//é¦–ç•Œé¢å›¾ç‰‡
 	putimage(0,0,&img[2]);
-	settextstyle(MINESIZE, 0, _T("ºÚÌå"));
+	settextstyle(MINESIZE, 0, _T("é»‘ä½“"));
 	setbkmode(TRANSPARENT);
 	while(1)
 	{
 		
 		setcolor(WHITE);
-		outtextxy(MINESIZE*COL/2-45,(ROW-2)*MINESIZE,"µã»÷ÈÎÒâ¼ü¿ªÊ¼ÓÎÏ·");
+		outtextxy(MINESIZE*COL/2-45,(ROW-2)*MINESIZE,"ç‚¹å‡»ä»»æ„é”®å¼€å§‹æ¸¸æˆ");
 		Sleep(300);
 		setcolor(BLACK);
-		outtextxy(MINESIZE*COL/2-45,(ROW-2)*MINESIZE,"µã»÷ÈÎÒâ¼ü¿ªÊ¼ÓÎÏ·");
+		outtextxy(MINESIZE*COL/2-45,(ROW-2)*MINESIZE,"ç‚¹å‡»ä»»æ„é”®å¼€å§‹æ¸¸æˆ");
 		Sleep(300);
 		if(kbhit())
 		{
@@ -139,7 +139,7 @@ void stop()
 	gettextstyle(&f);
 	f.lfQuality = ANTIALIASED_QUALITY;
 	fillrectangle(MINESIZE*COL+20,250,MINESIZE*COL+100,300);
-	outtextxy(MINESIZE*COL+30,260,"ÔİÍ£");
+	outtextxy(MINESIZE*COL+30,260,"æš‚åœ");
 	setfillstyle(BS_SOLID);
 }
 
@@ -154,8 +154,8 @@ void menu()
 	f.lfQuality = ANTIALIASED_QUALITY;
 	fillrectangle(MINESIZE*COL+20,50,MINESIZE*COL+100,100);
 	fillrectangle(MINESIZE*COL+20,150,MINESIZE*COL+100,200);
-	outtextxy(MINESIZE*COL+30,60,"ÖØÀ´");
-	outtextxy(MINESIZE*COL+30,160,"ÍË³ö");
+	outtextxy(MINESIZE*COL+30,60,"é‡æ¥");
+	outtextxy(MINESIZE*COL+30,160,"é€€å‡º");
 	setfillstyle(BS_SOLID);
 	stop();
 }
@@ -257,7 +257,7 @@ void draw()
 				putimage((j-1)*MINESIZE,(i-1)*MINESIZE,&img[1]);
 			}
 		}
-//*×÷±×ÏµÍ³£¬Èç¹ûÏëÒ»¿ªÊ¼¾ÍÖªµÀÀ×µÄÎ»ÖÃ£¬¾Í°ÑÕâĞ©×¢ÊÍÈ¥µô
+//*ä½œå¼Šç³»ç»Ÿï¼Œå¦‚æœæƒ³ä¸€å¼€å§‹å°±çŸ¥é“é›·çš„ä½ç½®ï¼Œå°±æŠŠè¿™äº›æ³¨é‡Šå»æ‰
 	system("cls");
 	for(i = 1; i <= ROW; i++)
 	{
@@ -288,7 +288,7 @@ void openZero(int i, int j)
 					}
 					else
 					{
-						openZero(m,n);//µİ¹éµ÷ÓÃ
+						openZero(m,n);//é€’å½’è°ƒç”¨
 					}
 			}
 		}
@@ -302,7 +302,7 @@ void fail()
 			if(map[i][j] == 19 || map[i][j] == 69)
 				map[i][j]=-1;
 	draw();
-	MessageBox(NULL,"ÓÎÏ·Ê§°Ü","Ê§°Ü",MB_OK);
+	MessageBox(NULL,"æ¸¸æˆå¤±è´¥","å¤±è´¥",MB_OK);
 	closegraph();
 	exit(0);
 }
@@ -345,7 +345,7 @@ void keepon()
 	gettextstyle(&f);
 	f.lfQuality = ANTIALIASED_QUALITY;
 	fillrectangle(MINESIZE*COL+20,250,MINESIZE*COL+100,300);
-	outtextxy(MINESIZE*COL+30,260,"¼ÌĞø");
+	outtextxy(MINESIZE*COL+30,260,"ç»§ç»­");
 	setfillstyle(BS_SOLID);
 }
 
@@ -367,31 +367,31 @@ int game()
 		onoff = 0;
 
 		m=GetMouseMsg();
-		if(m.x > 0 && m.x < MINESIZE*COL && m.y > 0 && m.y < MINESIZE*ROW)//Èç¹ûÊó±êÖ¸ÕëÔÚ×ó±ßÓÎÏ·Çø
+		if(m.x > 0 && m.x < MINESIZE*COL && m.y > 0 && m.y < MINESIZE*ROW)//å¦‚æœé¼ æ ‡æŒ‡é’ˆåœ¨å·¦è¾¹æ¸¸æˆåŒº
 		{
-			//Å²¶¯Êó±ê£¬Çø¿é±äÉ«
-			static int lastx=1,lasty=1;//lastx£¬lasty¼ÇÂ¼ÉÏÒ»´Î±ä³ÉÇ³É«µÄ¸ñ×Ó£¬²¢½«Æä¸´Ô­
+			//æŒªåŠ¨é¼ æ ‡ï¼ŒåŒºå—å˜è‰²
+			static int lastx=1,lasty=1;//lastxï¼Œlastyè®°å½•ä¸Šä¸€æ¬¡å˜æˆæµ…è‰²çš„æ ¼å­ï¼Œå¹¶å°†å…¶å¤åŸ
 			if(map[lasty/MINESIZE+1][lastx/MINESIZE+1] >= 19 && map[lasty/MINESIZE+1][lastx/MINESIZE+1] <= 28)
 			darkGrey(lasty/MINESIZE+1,lastx/MINESIZE+1);
-			if(map[m.y/MINESIZE+1][m.x/MINESIZE+1] >= 19 && map[m.y/MINESIZE+1][m.x/MINESIZE+1] <= 28)//°ÑÄ¿Ç°Êó±êËùÖ¸µÄ¸ñ×Ó±ä³ÉÇ³É«
+			if(map[m.y/MINESIZE+1][m.x/MINESIZE+1] >= 19 && map[m.y/MINESIZE+1][m.x/MINESIZE+1] <= 28)//æŠŠç›®å‰é¼ æ ‡æ‰€æŒ‡çš„æ ¼å­å˜æˆæµ…è‰²
 			{
 				lightGrey(m.y/MINESIZE+1,m.x/MINESIZE+1);
 				lastx=m.x;
 				lasty=m.y;
 			}
 
-			//×ó¼ü°´ÏÂ
+			//å·¦é”®æŒ‰ä¸‹
 			if(m.uMsg == WM_LBUTTONDOWN)
 			{
 				row=m.y/MINESIZE+1;
 				col=m.x/MINESIZE+1;
-				if(map[row][col] >= 1 && map[row][col] <= 8)//Èç¹ûÊÇÒÑ¾­·­¿ªµÄÊı×Ö·½¿é
+				if(map[row][col] >= 1 && map[row][col] <= 8)//å¦‚æœæ˜¯å·²ç»ç¿»å¼€çš„æ•°å­—æ–¹å—
 				{
-					int i,j,flagNum = 0, match=0;//flagNum¼ÇÂ¼ÖÜÎ§Æì×ÓÊıÄ¿£¬match¼ÇÂ¼Æì×ÓÓĞÀ×µÄÊıÄ¿
+					int i,j,flagNum = 0, match=0;//flagNumè®°å½•å‘¨å›´æ——å­æ•°ç›®ï¼Œmatchè®°å½•æ——å­æœ‰é›·çš„æ•°ç›®
 					for(i = row-1; i <= row+1; i++)
-						for(j = col-1; j <= col+1; j++)//±éÀúÖÜÎ§µÄ¸ñ×Ó
+						for(j = col-1; j <= col+1; j++)//éå†å‘¨å›´çš„æ ¼å­
 						{
-							if(i == row && j == col)//³ıÈ¥ÖĞ¼äµÄ¸ñ×Ó
+							if(i == row && j == col)//é™¤å»ä¸­é—´çš„æ ¼å­
 								continue;
 							if(i >= 1 && i <= ROW && j >= 1 && j <= COL)
 							{
@@ -401,17 +401,17 @@ int game()
 									match++;
 							}
 						}
-					if(flagNum == match && map[row][col] == flagNum && match == map[row][col])//Èç¹ûÖÜÎ§Æì×ÓµÄÊıÁ¿=Æì×ÓºÍÀ×Æ¥ÅäµÄÊıÁ¿=ÖÜÎ§À×µÄÊıÁ¿
+					if(flagNum == match && map[row][col] == flagNum && match == map[row][col])//å¦‚æœå‘¨å›´æ——å­çš„æ•°é‡=æ——å­å’Œé›·åŒ¹é…çš„æ•°é‡=å‘¨å›´é›·çš„æ•°é‡
 					{
 						for(i = row-1; i <= row+1; i++)
-							for(j = col-1; j <= col+1; j++)//±éÀúÖÜÎ§µÄ¸ñ×Ó
+							for(j = col-1; j <= col+1; j++)//éå†å‘¨å›´çš„æ ¼å­
 							{
-								if(i == row && j == col)//³ıÈ¥ÖĞ¼äµÄ¸ñ×Ó
+								if(i == row && j == col)//é™¤å»ä¸­é—´çš„æ ¼å­
 									continue;
-								if(i >= 1 && i <= ROW && j >= 1 && j <= COL)//·ÀÖ¹Ô½½ç
-									if(map[i][j] >= 20 && map[i][j] <= 28)//Èç¹ûÊÇÎ´·­¿ªµÄÊı×Ö
+								if(i >= 1 && i <= ROW && j >= 1 && j <= COL)//é˜²æ­¢è¶Šç•Œ
+									if(map[i][j] >= 20 && map[i][j] <= 28)//å¦‚æœæ˜¯æœªç¿»å¼€çš„æ•°å­—
 									{
-										if(map[i][j] == 20)//Èç¹ûÊı×ÖÊÇ0
+										if(map[i][j] == 20)//å¦‚æœæ•°å­—æ˜¯0
 										{
 											openZero(i,j);
 										}
@@ -423,9 +423,9 @@ int game()
 									}
 							}
 					}
-					else if(flagNum == map[row][col] && match < flagNum)//Èç¹ûÖÜÎ§Æì×ÓÊıÄ¿µÈÓÚÖÜÎ§À×µÄÊıÄ¿£¬¶øÆ¥ÅäµÄÊıÄ¿Ğ¡ÓÚÆì×ÓÊıÄ¿£¨ËµÃ÷ÓĞÆì×Ó±ê´íÁË£©
+					else if(flagNum == map[row][col] && match < flagNum)//å¦‚æœå‘¨å›´æ——å­æ•°ç›®ç­‰äºå‘¨å›´é›·çš„æ•°ç›®ï¼Œè€ŒåŒ¹é…çš„æ•°ç›®å°äºæ——å­æ•°ç›®ï¼ˆè¯´æ˜æœ‰æ——å­æ ‡é”™äº†ï¼‰
 						fail();
-					else//µã»÷·­¿ªµÄÊı×Ö£¬½«Êı×ÖÖÜÎ§Î´·­¿ªµÄ·½¿é±ê¼Ç³öÀ´
+					else//ç‚¹å‡»ç¿»å¼€çš„æ•°å­—ï¼Œå°†æ•°å­—å‘¨å›´æœªç¿»å¼€çš„æ–¹å—æ ‡è®°å‡ºæ¥
 					{
 						for(i = row-1; i <= row+1; i++)
 							for(j = col-1; j <= col+1; j++)
@@ -441,16 +441,16 @@ int game()
 							{
 								if(i == row && j == col)
 									continue;
-								if(i >= 1 && i <= ROW && j >= 1 && j <= COL && map[i][j] >= 19 && map[i][j] <= 28)//·ÀÖ¹Ô½½ç+ÏŞ¶¨·¶Î§ÔÚÎ´·­¿ªµÄ·½¿éÉÏ
+								if(i >= 1 && i <= ROW && j >= 1 && j <= COL && map[i][j] >= 19 && map[i][j] <= 28)//é˜²æ­¢è¶Šç•Œ+é™å®šèŒƒå›´åœ¨æœªç¿»å¼€çš„æ–¹å—ä¸Š
 									darkGrey(i,j);
 							}
 					}
 				}
-				if(map[row][col] >= 19 && map[row][col] <= 28)//Èç¹ûµã¿ªµÄÊÇÎ´·­¿ªµÄ¸ñ×Ó
+				if(map[row][col] >= 19 && map[row][col] <= 28)//å¦‚æœç‚¹å¼€çš„æ˜¯æœªç¿»å¼€çš„æ ¼å­
 				{
 					if(map[row][col] == 20)
 					{
-						openZero(row,col);//0µÄ»°µ÷ÓÃ¿ª0º¯Êı
+						openZero(row,col);//0çš„è¯è°ƒç”¨å¼€0å‡½æ•°
 					}
 					else
 					{
@@ -459,9 +459,9 @@ int game()
 					}
 					
 				}
-				return map[row][col];//·µ»ØÖµÓÃÓÚÅĞ¶ÏÊ¤Àû
+				return map[row][col];//è¿”å›å€¼ç”¨äºåˆ¤æ–­èƒœåˆ©
 			}
-			else if(m.uMsg == WM_RBUTTONDOWN)//ÓÒ¼ü°´ÏÂ£¬±ê¼ÇÆì×Ó
+			else if(m.uMsg == WM_RBUTTONDOWN)//å³é”®æŒ‰ä¸‹ï¼Œæ ‡è®°æ——å­
 			{
 				row=m.y/MINESIZE+1;
 				col=m.x/MINESIZE+1;
@@ -473,7 +473,7 @@ int game()
 			}
 
 		}
-		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 50 && m.y < 100)//Èç¹ûÊó±êÖØÀ´°´Å¥ÄÚ
+		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 50 && m.y < 100)//å¦‚æœé¼ æ ‡é‡æ¥æŒ‰é’®å†…
 		{
 			if(m.uMsg == WM_LBUTTONDOWN)
 			{
@@ -529,11 +529,11 @@ void judge()
 		long old;
 		t.second=(t2-t1)/1000;
 		calTime();
-		sprintf(str,"¹§Ï²Äã´´ÏÂĞÂ¼ÍÂ¼£º%02d:%02d:%02d",t.hour,t.minute,t.second);
+		sprintf(str,"æ­å–œä½ åˆ›ä¸‹æ–°çºªå½•ï¼š%02d:%02d:%02d",t.hour,t.minute,t.second);
 		if((fp1=fopen("record.txt","r")) == NULL)
 		{
 			fp2=fopen("record.txt","w");
-			MessageBox(NULL,TEXT(str),"ĞÂ¼ÍÂ¼",MB_OK);
+			MessageBox(NULL,TEXT(str),"æ–°çºªå½•",MB_OK);
 			fprintf(fp2,"%d",t2-t1);
 			fclose(fp2);
 		}
@@ -542,14 +542,14 @@ void judge()
 			fscanf(fp1,"%d",&old);
 			if(t2-t1 < old)
 			{	
-				MessageBox(NULL,TEXT(str),"ĞÂ¼ÍÂ¼",MB_OK);
+				MessageBox(NULL,TEXT(str),"æ–°çºªå½•",MB_OK);
 				fp2=fopen("record.txt","w");
 				fprintf(fp2,"%d",t2-t1);
 				fclose(fp2);
 			}
 			else
 			{
-				MessageBox(NULL,TEXT("¹§Ï²ÄãÊ¤ÀûÁË"),"Ê¤Àû",MB_OK);
+				MessageBox(NULL,TEXT("æ­å–œä½ èƒœåˆ©äº†"),"èƒœåˆ©",MB_OK);
 			}
 			fclose(fp1);
 		}
