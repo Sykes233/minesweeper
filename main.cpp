@@ -22,6 +22,7 @@ typedef struct{
 
 int count;//点开的非雷方块数目
 int map[ROW+2][COL+2];
+int mineNum=NUM;
 IMAGE img[3];
 clock_t t1,t2,t3,t4;
 int onoff;//游戏暂停的标志
@@ -145,7 +146,6 @@ void stop()
 
 void menu()
 {
-
 	setcolor(WHITE);
 	setfillstyle(BS_HATCHED, HS_BDIAGONAL);
 	setfillcolor(RGB(190,190,190));
@@ -238,7 +238,6 @@ void draw()
 	for(i = 1; i <= ROW; i++)
 		for(j = 1; j <= COL; j++)
 		{
-			printf("%4d",map[i][j]);
 			if(map[i][j] == -1)
 			{
 				putimage((j-1)*MINESIZE+1,(i-1)*MINESIZE+1,&img[0]);
@@ -334,6 +333,13 @@ void printTime()
 	calTime();
 	sprintf(str,"%02d:%02d:%02d",t.hour,t.minute,t.second);
 	outtextxy(MINESIZE*COL+20,350,str);
+	if(mineNum <= 0)//显示未标记雷的数目
+	{
+		outtextxy(MINESIZE*COL+20,400,"雷数：0");
+		return;
+	}
+	sprintf(str,"雷数：%d",mineNum);
+	outtextxy(MINESIZE*COL+20,400,str);
 }
 
 void keepon()
@@ -466,9 +472,15 @@ int game()
 				row=m.y/MINESIZE+1;
 				col=m.x/MINESIZE+1;
 				if(map[row][col] >= 19 && map[row][col] <= 28)
+				{
 					map[row][col]+=50;
+					mineNum--;
+				}
 				else if(map[row][col] > 30)
+				{
 					map[row][col]-=50;
+					mineNum++;
+				}
 				return map[row][col];
 			}
 
@@ -479,7 +491,7 @@ int game()
 			{
 				init();
 				draw();
-				t1=clock();
+				t1=clock();//进入游戏界面并记录开始游戏时间
 			}
 		}
 		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 250 && m.y < 300 && m.uMsg == WM_LBUTTONDOWN)//如果鼠标点击暂停
