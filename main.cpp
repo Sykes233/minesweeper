@@ -17,7 +17,7 @@ typedef struct{
 ***********************/
 #define ROW 16			//有多少行
 #define COL 16			//有多少列
-#define NUM 1			//雷数
+#define NUM 50			//雷数
 #define MINESIZE 30		//每个格子的长和宽
 
 int count;//点开的非雷方块数目
@@ -47,8 +47,8 @@ void judge();//判断游戏的成功与失败
 
 int main()
 {
-//	initgraph(COL*MINESIZE+160,ROW*MINESIZE);
-	initgraph(ROW*MINESIZE+160,COL*MINESIZE,SHOWCONSOLE);//如果想一开始就知道雷的位置，就把这个注释去掉并把上面那个注释掉
+	initgraph(COL*MINESIZE+160,ROW*MINESIZE);
+//	initgraph(ROW*MINESIZE+160,COL*MINESIZE,SHOWCONSOLE);//如果想一开始就知道雷的位置，就把这个注释去掉并把上面那个注释掉
 
 	if(first())//受界面函数返回一就开始游戏
 	{	
@@ -258,14 +258,14 @@ void draw()
 			}
 		}
 //*作弊系统，如果想一开始就知道雷的位置，就把这些注释去掉
-	system("cls");
+/*	system("cls");
 	for(i = 1; i <= ROW; i++)
 	{
 		for(j = 1; j <= COL; j++)
 			printf("%4d",map[i][j]);
 		printf("\n");
 	}
-
+*/
 }
 
 void openZero(int i, int j)
