@@ -12,9 +12,9 @@ typedef struct{
 }Time;
 
 
-/***********************
-*		宏定义         *
-***********************/
+/************************
+*		宏定义			*
+*************************/
 #define ROW 16			//有多少行
 #define COL 16			//有多少列
 #define NUM 50			//雷数
@@ -24,13 +24,13 @@ int count;//点开的非雷方块数目
 int map[ROW+2][COL+2];
 IMAGE img[3];
 clock_t t1,t2,t3,t4;
-int onoff;
+int onoff;//游戏暂停的标志
 Time t;
 
 
 void init();//初始化贴图，布雷，加密（详细会在文档里说）
 int first();//游戏首界面
-void stop();
+void stop();//暂停按钮
 void menu();//右侧菜单
 void lightGrey(int i,int j);//浅灰色防块的绘制
 void darkGrey(int i,int j);//深灰色方块的绘制
@@ -38,9 +38,9 @@ void number(int n, int i, int j);//数字的绘制
 void draw();//画表
 void openZero(int i, int j);//对开到数字为0格子的处理
 void fail();//失败弹窗
-void calTime();
-void printTime();
-void keepon();
+void calTime();//计算游戏运行时间
+void printTime();//打印时间
+void keepon();//打印继续按钮
 int game();//控制整个游戏的鼠标点击，流程
 void judge();//判断游戏的成功与失败
 
@@ -311,12 +311,12 @@ void calTime()
 {
 	t.hour=0;
 	t.minute=0;
-	while(t.second >= 60)
+	while(t.second >= 60)//如果秒数大于60，将对应秒数转换成分钟
 	{
 		t.second-=60;
 		t.minute++;
 	}
-	while(t.minute >= 60)
+	while(t.minute >= 60)//超出60的分钟转换成小时
 	{
 		t.minute -= 60;
 		t.hour++;
@@ -327,9 +327,9 @@ void printTime()
 {
 	char str[20];
 	setfillcolor(BLACK);
-	bar(MINESIZE*COL+10,350,MINESIZE*COL+160,480);
+	bar(MINESIZE*COL+10,350,MINESIZE*COL+160,480);//覆盖上一次打印的时间
 	setcolor(WHITE);
-	t2=clock();
+	t2=clock();//游戏现在的时间
 	t.second =(t2-t1)/1000;
 	calTime();
 	sprintf(str,"%02d:%02d:%02d",t.hour,t.minute,t.second);
@@ -359,12 +359,12 @@ int game()
 
 		if(onoff == 0)
 			printTime();
-		else if(onoff == 1)
+		else if(onoff == 1)//如果点过暂停
 		{
-			t1=t1+(t4-t3);
+			t1=t1+(t4-t3);//弥补暂停的时间差
 			printTime();
 		}
-		onoff = 0;
+		onoff = 0;//恢复成继续状态
 
 		m=GetMouseMsg();
 		if(m.x > 0 && m.x < MINESIZE*COL && m.y > 0 && m.y < MINESIZE*ROW)//如果鼠标指针在左边游戏区
@@ -482,32 +482,32 @@ int game()
 				t1=clock();
 			}
 		}
-		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 250 && m.y < 300 && m.uMsg == WM_LBUTTONDOWN)
+		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 250 && m.y < 300 && m.uMsg == WM_LBUTTONDOWN)//如果鼠标点击暂停
 		{
 			printf("\a");
-			onoff = 1;
-			t3 = clock();
-			setcolor(BLACK);
+			onoff = 1;//1代表点过暂停
+			t3 = clock();//记录点击暂停的时间
+			setcolor(BLACK);//用黑色覆盖原来的暂停按钮
 			setfillcolor(BLACK);
 			fillrectangle(MINESIZE*COL+20,250,MINESIZE*COL+100,300);
-			keepon();
+			keepon();//打印继续按钮
 			MOUSEMSG m;
 			while(1)
 			{
 				m=GetMouseMsg();
-				if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 250 && m.y < 300 && m.uMsg == WM_LBUTTONDOWN)
+				if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 250 && m.y < 300 && m.uMsg == WM_LBUTTONDOWN)//如果点击继续
 				{
 					printf("\a");
-					t4=clock();
+					t4=clock();//记录继续的时间
 					setcolor(BLACK);
 					setfillcolor(BLACK);
-					fillrectangle(MINESIZE*COL+20,250,MINESIZE*COL+100,300);
-					stop();
+					fillrectangle(MINESIZE*COL+20,250,MINESIZE*COL+100,300);//覆盖掉原来的继续按钮
+					stop();//打印暂停按钮
 					break;
 				}
 			}
 		}
-		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 150 && m.y < 200 && m.uMsg == WM_LBUTTONDOWN)
+		else if(m.x > MINESIZE*COL+20 && m.x < MINESIZE*COL+100 && m.y > 150 && m.y < 200 && m.uMsg == WM_LBUTTONDOWN)//点击退出
 		{
 			closegraph();
 			exit(0);
@@ -530,24 +530,24 @@ void judge()
 		t.second=(t2-t1)/1000;
 		calTime();
 		sprintf(str,"恭喜你创下新纪录：%02d:%02d:%02d",t.hour,t.minute,t.second);
-		if((fp1=fopen("record.txt","r")) == NULL)
+		if((fp1=fopen("record.txt","r")) == NULL)//判断先前有没有历史纪录的文件
 		{
-			fp2=fopen("record.txt","w");
-			MessageBox(NULL,TEXT(str),"新纪录",MB_OK);
+			fp2=fopen("record.txt","w");//没有就创建一个
+			MessageBox(NULL,TEXT(str),"新纪录",MB_OK);//输出这个记录
 			fprintf(fp2,"%d",t2-t1);
 			fclose(fp2);
 		}
 		else
 		{
-			fscanf(fp1,"%d",&old);
-			if(t2-t1 < old)
+			fscanf(fp1,"%d",&old);//用获取旧的记录
+			if(t2-t1 < old)//看看有没有打破记录
 			{	
 				MessageBox(NULL,TEXT(str),"新纪录",MB_OK);
 				fp2=fopen("record.txt","w");
 				fprintf(fp2,"%d",t2-t1);
 				fclose(fp2);
 			}
-			else
+			else//没打破记录
 			{
 				MessageBox(NULL,TEXT("恭喜你胜利了"),"胜利",MB_OK);
 			}
